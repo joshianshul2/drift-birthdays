@@ -1,11 +1,13 @@
 import { useMemo, useState } from 'react'
-import { Bell, BellOff, Cake, Mail, Plus, Search } from 'lucide-react'
+import { Bell, BellOff, Cake, Plus, Search } from 'lucide-react'
 import type { Person } from '../lib/types'
 import { MONTHS, daysUntil, formatMonthDay, nextOccurrence, relativeLabel, turningAge } from '../lib/dates'
 import type { PermissionState } from '../lib/notifications'
 import { Avatar } from './Avatar'
 import { Divider } from './Divider'
 import { Logo } from './Logo'
+import neonRainbow from '../images/neon-rainbow.jpg'
+import dessertPlate from '../images/dessert-plate.jpg'
 
 interface Props {
   people: Person[]
@@ -47,7 +49,7 @@ export function BirthdayList({ people, now, permission, onAdd, onEdit, onEnableN
   }, [filtered, now])
 
   return (
-    <section id="birthdays" className="relative z-10 bg-cream rounded-t-[25px] px-5 pt-10 pb-32 min-h-[60vh]">
+    <section id="birthdays" className="relative z-10 paper rounded-t-[25px] px-5 pt-10 pb-32 min-h-[60vh]">
       <div className="max-w-xl mx-auto">
         {permission !== 'granted' && permission !== 'unsupported' && (
           <button
@@ -76,17 +78,21 @@ export function BirthdayList({ people, now, permission, onAdd, onEdit, onEnableN
                 <button
                   key={p.id}
                   onClick={() => onEdit(p)}
-                  className="w-full bg-bark text-milk rounded-3xl p-5 flex items-center gap-4 text-left animate-fade-in-down"
+                  className="relative w-full overflow-hidden rounded-3xl text-left animate-fade-in-down shadow-[0_20px_40px_-20px_rgba(50,28,4,0.6)]"
                 >
-                  <Avatar name={p.name} photo={p.photo} size={64} ring />
-                  <span className="flex-1 min-w-0">
-                    <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest font-semibold text-milk/60">
-                      <Cake size={13} /> Today
-                    </span>
-                    <span className="block text-2xl mt-1 truncate">{p.name}</span>
-                    <span className="block text-sm text-milk/70 mt-0.5">
-                      {age ? `Turns ${age} — ` : ''}
-                      <span className="serif-italic text-base">send some love</span>
+                  <img src={neonRainbow} alt="" className="absolute inset-y-0 right-0 w-[70%] h-full object-cover object-[70%_50%]" />
+                  <span className="absolute inset-0 bg-gradient-to-r from-[#1F1003] via-[#1F1003]/90 via-45% to-[#1F1003]/10" />
+                  <span className="relative flex items-center gap-4 p-5 text-milk">
+                    <Avatar name={p.name} photo={p.photo} size={68} ring />
+                    <span className="flex-1 min-w-0">
+                      <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest font-semibold text-milk/70">
+                        <Cake size={13} /> Today
+                      </span>
+                      <span className="block text-2xl mt-1 truncate">{p.name}</span>
+                      <span className="block text-sm text-milk/80 mt-0.5">
+                        {age ? `Turns ${age} — ` : ''}
+                        <span className="serif-italic text-base">send some love</span>
+                      </span>
                     </span>
                   </span>
                 </button>
@@ -97,8 +103,8 @@ export function BirthdayList({ people, now, permission, onAdd, onEdit, onEnableN
 
         <p className="text-center text-base leading-relaxed max-w-sm mx-auto">
           {people.length === 0
-            ? 'Add the people who matter. Drift remembers, so you can simply show up.'
-            : `${people.length} ${people.length === 1 ? 'person' : 'people'}, gently remembered.`}
+            ? 'Add the people who matter. Drift remembers — you simply show up.'
+            : `${people.length} ${people.length === 1 ? 'person' : 'people'}, lovingly remembered.`}
         </p>
 
         <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -142,10 +148,20 @@ export function BirthdayList({ people, now, permission, onAdd, onEdit, onEnableN
         )}
 
         {people.length === 0 && (
-          <div className="flex flex-col items-center text-center gap-3 py-6 text-bark/60">
-            <Mail size={22} />
-            <p className="text-sm max-w-[260px]">Start with one name. A partner, a parent, a friend you keep meaning to call.</p>
-          </div>
+          <button
+            onClick={onAdd}
+            className="relative w-full overflow-hidden rounded-3xl text-left shadow-[0_20px_40px_-24px_rgba(50,28,4,0.7)] active:scale-[0.99] transition"
+          >
+            <img src={dessertPlate} alt="" className="w-full aspect-[4/3] object-cover object-top" />
+            <span className="absolute inset-0 bg-gradient-to-t from-[#1F1003] via-[#1F1003]/80 via-40% to-transparent" />
+            <span className="absolute inset-x-0 bottom-0 p-5 text-milk">
+              <span className="block text-[11px] uppercase tracking-widest font-semibold text-milk/70">Your first reminder</span>
+              <span className="block text-xl mt-1">
+                Who would you <span className="serif-italic text-2xl">hate</span> to forget?
+              </span>
+              <span className="block text-sm text-milk/75 mt-1">A partner, a parent, a friend you keep meaning to call.</span>
+            </span>
+          </button>
         )}
 
         <div className="space-y-10">
@@ -159,7 +175,7 @@ export function BirthdayList({ people, now, permission, onAdd, onEdit, onEnableN
                     <li key={p.id}>
                       <button
                         onClick={() => onEdit(p)}
-                        className="w-full flex items-center gap-4 bg-milk/70 hover:bg-milk rounded-2xl p-3 text-left transition active:scale-[0.99]"
+                        className="w-full flex items-center gap-4 bg-milk/80 hover:bg-milk border border-white/70 shadow-[0_6px_16px_-12px_rgba(50,28,4,0.45)] rounded-2xl p-3 text-left transition active:scale-[0.99]"
                       >
                         <Avatar name={p.name} photo={p.photo} />
                         <span className="flex-1 min-w-0">

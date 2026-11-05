@@ -154,7 +154,7 @@ export default function App() {
       />
 
       {loadError ? (
-        <section className="relative z-10 bg-cream rounded-t-[25px] px-5 py-16 text-center">{loadError}</section>
+        <section className="relative z-10 paper rounded-t-[25px] px-5 py-16 text-center">{loadError}</section>
       ) : loaded ? (
         <BirthdayList
           people={people}
@@ -165,7 +165,7 @@ export default function App() {
           onEnableNotifications={askPermission}
         />
       ) : (
-        <section className="relative z-10 bg-cream rounded-t-[25px] min-h-[60vh]" />
+        <section className="relative z-10 paper rounded-t-[25px] min-h-[60vh]" />
       )}
 
       {people.length > 0 && !editing && !settingsOpen && (

@@ -14,7 +14,7 @@ export function Sheet({ title, onClose, children }: { title: string; onClose: ()
   return (
     <div className="fixed inset-0 z-[60] flex items-end justify-center" role="dialog" aria-modal="true" aria-label={title}>
       <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] animate-fade-in" onClick={onClose} />
-      <div className="relative w-full max-w-xl max-h-[92vh] overflow-y-auto no-scrollbar bg-cream rounded-t-[28px] px-5 pt-3 pb-8 animate-sheet-up">
+      <div className="relative w-full max-w-xl max-h-[92vh] overflow-y-auto no-scrollbar paper rounded-t-[28px] px-5 pt-3 pb-8 animate-sheet-up">
         <div className="mx-auto w-10 h-1 rounded-full bg-sand mb-4" />
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl">{title}</h2>
