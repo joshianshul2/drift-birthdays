@@ -1,0 +1,57 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write # needed to publish the APK as a GitHub Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install, test and build web app
+        run: |
+          npm ci
+          npm test
+          npm run build
+          npx cap sync android
+
+      - name: Build APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+          cp app/build/outputs/apk/debug/app-debug.apk ../drift-birthdays.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: drift-birthdays-apk
+          path: drift-birthdays.apk
+
+      # A Release gives a plain download link you can open on your phone.
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Drift Birthdays (build ${{ github.run_number }})
+          body: Open this page on your Android phone and tap drift-birthdays.apk to install.
+          files: drift-birthdays.apk
+          make_latest: true

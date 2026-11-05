@@ -1,0 +1,9 @@
+{
+  "appId": "com.drift.birthdays",
+  "appName": "Drift Birthdays",
+  "webDir": "dist",
+  "android": { "adjustMarginsForEdgeToEdge": "force" },
+  "plugins": {
+    "LocalNotifications": { "smallIcon": "ic_stat_drift", "iconColor": "#321C04" }
+  }
+}
