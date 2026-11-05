@@ -1,10 +1,9 @@
-import { useState } from 'react'
 import { Navbar } from './Navbar'
 import type { Person } from '../lib/types'
 import { daysUntil, relativeLabel } from '../lib/dates'
 
-const HERO_VIDEO =
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260711_090308_1dd0cea7-f9ba-4db4-8147-c7d746061c9e.mp4'
+// Bundled inside the APK, so the hero shows instantly and works offline.
+import heroImage from '../hero-birthday.jpg'
 
 interface Props {
   next?: Person
@@ -14,26 +13,19 @@ interface Props {
 }
 
 export function Hero({ next, onAdd, onSettings, onList }: Props) {
-  // If offline or the video fails, a warm gradient shows instead of a black box.
-  const [videoOk, setVideoOk] = useState(true)
   const nextDays = next ? daysUntil(next.month, next.day) : null
   const nextFirst = next?.name.trim().split(/\s+/)[0]
 
   return (
     <section className="relative h-[68vh] min-h-[480px] max-h-[760px] overflow-hidden mb-[-25px] bg-gradient-to-b from-[#6b4a2a] via-[#8a6440] to-[#3a2410]">
-      {videoOk && (
-        <video
-          className="absolute inset-0 w-full h-full object-cover"
-          src={HERO_VIDEO}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          onError={() => setVideoOk(false)}
-        />
-      )}
+      <img
+        src={heroImage}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover object-[78%_40%]"
+      />
       <div className="absolute inset-0 bg-black/20" />
+      {/* Darken the bottom so the heading stays readable over the bright cake. */}
+      <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/70 via-black/35 to-transparent" />
 
       <Navbar onAdd={onAdd} onSettings={onSettings} onList={onList} />
 
@@ -57,7 +49,7 @@ export function Hero({ next, onAdd, onSettings, onList }: Props) {
                 Next: {nextFirst} · {relativeLabel(nextDays).toLowerCase()}
               </>
             ) : (
-              'No noise. Just your people, gently remembered.'
+              'Your people, gently remembered.'
             )}
           </span>
           <button
