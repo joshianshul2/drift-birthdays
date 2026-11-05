@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+def driftVersionCode = (project.findProperty('versionCode') ?: '1').toString().toInteger()
+
 android {
     namespace "com.drift.birthdays"
     compileSdk rootProject.ext.compileSdkVersion
@@ -8,8 +10,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         // CI passes the build number so every APK is a newer version than the last.
-        versionCode (project.findProperty('versionCode') ?: '1').toInteger()
-        versionName "1.${project.findProperty('versionCode') ?: '0'}"
+        versionCode driftVersionCode
+        versionName "1.${driftVersionCode}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
